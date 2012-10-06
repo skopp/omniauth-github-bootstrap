@@ -37,7 +37,9 @@ run('mkdir -p app/views/welcome')
 create_file('app/views/welcome/index.html.slim') do
 <<-EOF
 h1 welcome#index
-You can find me at app/views/welcome/index.html.slim
+
+p
+  | You can find me at app/views/welcome/index.html.slim
 EOF
 end
 
@@ -135,7 +137,7 @@ doctype html
 
 html
   head
-    title Title
+    title #{app_name.capitalize}
 
     = stylesheet_link_tag 'application'
     = javascript_include_tag 'application'
@@ -144,13 +146,12 @@ html
   body
 
     - if logged_in?
-      = current_user.name
-      /
+      =' current_user.name
       = link_to 'Sign out', signout_path
     - else
       = link_to 'Sign in via Github', '/auth/github'
 
-    = yield
+    == yield
 EOF
 end
 
