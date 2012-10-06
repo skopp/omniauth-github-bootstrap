@@ -32,7 +32,6 @@ end
 EOF
 end
 
-#directory('app/views/welcome')
 run('mkdir -p app/views/welcome')
 create_file('app/views/welcome/index.html.slim') do
 <<-EOF
