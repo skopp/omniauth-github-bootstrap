@@ -27,18 +27,18 @@ end
 create_file('app/controllers/welcome_controller.rb') do
 <<-EOF
 class WelcomeController < ApplicationController
-  def index; end
+  def show; end
 end
 EOF
 end
 
 run('mkdir -p app/views/welcome')
-create_file('app/views/welcome/index.html.slim') do
+create_file('app/views/welcome/show.html.slim') do
 <<-EOF
-h1 welcome#index
+h1 welcome#show
 
 p
-  | You can find me at app/views/welcome/index.html.slim
+  | You can find me at app/views/welcome/show.html.slim
 EOF
 end
 
@@ -122,7 +122,7 @@ private
   end
 
   def authenticate!
-    redirect_to root_url, 'You can not access this page, you should sign in first.' unless logged_in?
+    redirect_to welcome_url unless logged_in?
   end
 
 end
@@ -155,11 +155,13 @@ EOF
 end
 
 route <<-EOF
-root to: 'welcome#index'
+root to: 'welcome#show'
 
   match 'auth/:provider/callback', to: 'sessions#create'
   match 'auth/failure', to: redirect('/')
   match 'signout', to: 'sessions#destroy', as: 'signout'
+
+  resource :welcome, only: :show, controller: 'welcome'
 EOF
 
 remove_file('public/index.html')
